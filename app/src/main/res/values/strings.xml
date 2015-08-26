@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Kev Recipes</string>
+
+    <!-- MainActivity -->
+    <string name="welcome_message">Welcome to Kevin\'s Recipe App</string>
+    <string name="action_settings">Settings</string>
+    <string name="button_view_recipes">View Recipes</string>
+    <string name="button_add_recipe">Add Recipe</string>
+    <string name="title_activity_add_recipe">AddRecipeActivity</string>
+
+    <!-- AddRecipeActivity -->
+    <string name="add_recipe_message">Add a new recipe</string>
+    <string name="source">Source: </string>
+    <string-array name="source_array">
+        <item>Website</item>
+        <item>Person</item>
+        <item>Book</item>
+        <item>Unknown/Other</item>
+    </string-array>
+
+</resources>
