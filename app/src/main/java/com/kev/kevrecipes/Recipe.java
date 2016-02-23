@@ -18,6 +18,7 @@ public class Recipe {
     public static final String UNKNOWN="Unknown";
     
     protected String source;
+    protected String recipeName;
     
     //only if source=WEBSITE, otherwise null
     protected String websiteName;
@@ -41,18 +42,19 @@ public class Recipe {
     //noarg constuctor assumes unknown source
     //this probably shouldn't be used
     public Recipe(){
-        this(UNKNOWN);
+        this(UNKNOWN,"blank");
     }
     
-    //constructor given only source
+    //constructor given only source & recipe name
     //probably shouldn't be called directly
-    public Recipe(String source){
+    public Recipe(String source, String recipeName){
         switch (this.source){
             case WEBSITE:
             case BOOK:
             case PERSON:
             case UNKNOWN:
-                source=this.source;
+                this.source=source;
+                this.recipeName=recipeName;
                 break;
             default:
                 throw new IllegalArgumentException();
@@ -61,9 +63,9 @@ public class Recipe {
     
     //constructor given all common info
     //appropriate for UNKNOWN sources
-    public Recipe(String source, String ingredients, String instructions,
+    public Recipe(String source, String recipeName, String ingredients, String instructions,
             int prepTime,int cookTime, String yield){
-        this(source);
+        this(source,recipeName);
         this.ingredients=ingredients;
         this.instructions=instructions;
         this.prepTime=prepTime;
@@ -72,39 +74,43 @@ public class Recipe {
     }
     
     //constructor given all info for WEBSITE source
-    public Recipe(String source, String websiteName, URL websiteURL,
+    public Recipe(String source, String recipeName, String websiteName, URL websiteURL,
             String ingredients, String instructions,
             int prepTime,int cookTime, String yield){
-        this(source,ingredients,instructions,prepTime,cookTime,yield);
+        this(source,recipeName,ingredients,instructions,prepTime,cookTime,yield);
         this.websiteName=websiteName;
         this.websiteURL=websiteURL;
     }
     
     //constructor given all info for BOOK source
-    public Recipe(String source, String bookName, String author, Integer pageNumber,
+    public Recipe(String source, String recipeName, String bookName, String author, Integer pageNumber,
             String ingredients, String instructions,
             int prepTime,int cookTime, String yield){
-        this(source,ingredients,instructions,prepTime,cookTime,yield);
+        this(source,recipeName,ingredients,instructions,prepTime,cookTime,yield);
         this.bookName=bookName;
         this.author=author;
         this.pageNumber=pageNumber;
     }
     
     //constructor given all info for PERSON source
-    public Recipe(String source, String personName,
+    public Recipe(String source, String recipeName, String personName,
             String ingredients, String instructions,
             int prepTime,int cookTime, String yield){
-        this(source,ingredients,instructions,prepTime,cookTime,yield);
+        this(source,recipeName,ingredients,instructions,prepTime,cookTime,yield);
         this.personName=personName;
     }
 
     //basic getters and setters
-    public String getWebsiteName() {
-        return websiteName;
+
+    public String getRecipeName() {
+        return recipeName;
     }
-    public void setWebsiteName(String websiteName) {
-        this.websiteName = websiteName;
+    public void setRecipeName(String recipeName) {
+        this.recipeName = recipeName;
     }
+
+    public String getWebsiteName() { return websiteName; }
+    public void setWebsiteName(String websiteName) { this.websiteName = websiteName; }
 
     public URL getWebsiteURL() {
         return websiteURL;

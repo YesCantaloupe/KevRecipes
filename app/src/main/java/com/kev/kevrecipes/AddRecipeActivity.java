@@ -1,23 +1,17 @@
 package com.kev.kevrecipes;
 
+import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +19,7 @@ import java.util.List;
 
 public class AddRecipeActivity extends Activity implements AdapterView.OnItemSelectedListener{
     private NoDefaultSpinner sourceSpinner;
+    String source;
     //private int selectCount;
 
     @Override
@@ -49,16 +44,17 @@ public class AddRecipeActivity extends Activity implements AdapterView.OnItemSel
         sourceSpinner.setOnItemSelectedListener(this);
     }
 
-    public void onItemSelected(AdapterView<?> parent,View view,int pos,long id){
+    public void onItemSelected(AdapterView<?> parent,View view,int pos,long id) {
         // An item was selected. You can retrieve the selected item using
         // parent.getItemAtPosition(pos)
 
         //remove previous source input, if applicable
-        ViewGroup oldSource=(ViewGroup)findViewById(R.id.hidden_source);
+        ViewGroup oldSource = (ViewGroup) findViewById(R.id.hidden_source);
         oldSource.removeAllViews();
 
+        source = parent.getItemAtPosition(pos).toString();
         //add appropriate source input
-        switch(parent.getItemAtPosition(pos).toString()){
+        switch (source) {
             case Recipe.WEBSITE:
                 InitializeWebsiteInput();
                 break;
@@ -72,6 +68,51 @@ public class AddRecipeActivity extends Activity implements AdapterView.OnItemSel
                 InitializeUnknownInput();
                 break;
         }
+
+        //add button to continue
+        RelativeLayout destination = (RelativeLayout) findViewById(R.id.add_recipe);
+        Button button = new Button(this);
+        RelativeLayout.LayoutParams buttonParams = new RelativeLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+        buttonParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        buttonParams.addRule(RelativeLayout.ALIGN_PARENT_END);
+        button.setLayoutParams(buttonParams);
+        button.setText("Continue");
+        //set what to do when the button is clicked
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddRecipeActivity.this, IngredientsInstructionsActivity.class);
+                //pass the name & source
+                EditText recipeName = (EditText)findViewById(R.id.recipe_name);
+                intent.putExtra("recipeName",recipeName.getText().toString());
+                intent.putExtra("source",source);
+                //pass extra info dependent on kind of source
+                switch (source) {
+                    case Recipe.WEBSITE:
+                        EditText websiteName = (EditText)findViewById(R.id.website_name);
+                        intent.putExtra("websiteName",websiteName.getText().toString());
+                        EditText websiteUrl = (EditText)findViewById(R.id.website_url);
+                        intent.putExtra("websiteUrl",websiteUrl.getText().toString());
+                        break;
+                    case Recipe.BOOK:
+                        EditText bookName = (EditText)findViewById(R.id.book_name);
+                        intent.putExtra("bookName",bookName.getText().toString());
+                        EditText author = (EditText)findViewById(R.id.author);
+                        intent.putExtra("author",author.getText().toString());
+                        EditText pageNumber = (EditText)findViewById(R.id.page_number);
+                        intent.putExtra("pageNumber",pageNumber.getText().toString());
+                        break;
+                    case Recipe.PERSON:
+                        EditText personName = (EditText)findViewById(R.id.person_name);
+                        intent.putExtra("personName",personName.getText().toString());
+                        break;
+                    case Recipe.UNKNOWN:
+                        break;
+                }
+                startActivity(intent);
+            }
+        });
+        destination.addView(button);
     }
 
     public void onNothingSelected(AdapterView<?> parent) {

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/recipeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="36sp"/>
+
+    <TextView
+        android:id="@+id/ingredientsTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ingredients"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/ingredientsText"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight=".35"
+        android:gravity="top" />
+
+    <TextView
+        android:id="@+id/instructionsTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/instructions"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/instructionsText"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight=".65"
+        android:gravity="top"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/continue_button"
+        android:id="@+id/continueButton"
+        android:layout_gravity="end"
+        android:singleLine="true"
+        android:onClick="continueToConfirmation"/>
+</LinearLayout>
